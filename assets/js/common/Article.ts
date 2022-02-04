@@ -1,4 +1,4 @@
-import DateUtil from "./DateUtil";
+import DateUtil from "../util/DateUtil";
 
 export type ArticleJson = {
     id: number,
@@ -67,7 +67,7 @@ class Article {
         return json;
     }
 
-    static fromJson(json: ArticleJson): Article {
+    public static fromJson(json: ArticleJson): Article {
         return new Article(
             json.id,
             json.title,
@@ -76,6 +76,10 @@ class Article {
             json.isNew,
             json.haveFile
         );
+    }
+
+    public toString(): string {
+        return `Article: [${this.getId()}] ${this.getTitle()} (${this.getAuthor()}${this.getHaveFile() ? ", file" : ""}${this.getIsNew() ? ", new" : ""})`;
     }
 }
 

@@ -1,24 +1,24 @@
 import Article, { ArticleJson } from "./Article";
 
 export type BoardJson = {
-    id: number,
+    id: string,
     name: string,
     articleList: Array<ArticleJson>,
     latestArticleId: number,
 };
 
 class Board {
-    private id: number;
+    private id: string;
     private name: string;
     private articleList: Array<Article> = [];
     private latestArticleId: number = 0;
 
-    public constructor(id: number, name: string) {
+    public constructor(id: string, name: string) {
         this.id = id;
         this.name = name;
     }
 
-    public getId(): number {
+    public getId(): string {
         return this.id;
     }
 
@@ -26,7 +26,7 @@ class Board {
         return this.name;
     }
 
-    private setLatestArticleId(id: number) {
+    public setLatestArticleId(id: number) {
         this.latestArticleId = id;
     }
 
@@ -88,7 +88,7 @@ class Board {
         return json;
     }
 
-    static fromJson(json: BoardJson): Board {
+    public static fromJson(json: BoardJson): Board {
         let board = new Board(json.id, json.name);
 
         json.articleList.map((articleJson) => {
