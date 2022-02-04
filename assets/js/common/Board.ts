@@ -1,4 +1,11 @@
-import Article from "./Article";
+import Article, { ArticleJson } from "./Article";
+
+export type BoardJson = {
+    id: number,
+    name: string,
+    articleList: Array<ArticleJson>,
+    latestArticleId: number,
+};
 
 class Board {
     private id: number;
@@ -65,27 +72,26 @@ class Board {
         this.articleList.splice(index, 1);
     }
 
-    public toJson(): any {
-        let articleList: any[] = [];
+    public toJson(): BoardJson {
+        let articleJsonList: Array<ArticleJson> = [];
         this.articleList.map(
-            article => articleList.push(article.toJson())
+            article => articleJsonList.push(article.toJson())
         );
 
-
-        let json = {
+        let json: BoardJson = {
             id: this.getId(),
             name: this.getName(),
-            articleList,
+            articleList: articleJsonList,
             latestArticleId: this.getLatestArticleId(),
         };
 
         return json;
     }
 
-    static fromJson(json: any): Board {
+    static fromJson(json: BoardJson): Board {
         let board = new Board(json.id, json.name);
 
-        json.articleList.map((articleJson: any) => {
+        json.articleList.map((articleJson) => {
             let article = Article.fromJson(articleJson);
             board.addArticle(article);
         })

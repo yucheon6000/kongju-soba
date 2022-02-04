@@ -1,5 +1,14 @@
 import DateUtil from "./DateUtil";
 
+export type ArticleJson = {
+    id: number,
+    title: string,
+    author: string,
+    date: string,
+    isNew: boolean,
+    haveFile: boolean
+};
+
 class Article {
     private id: number;
     private title: string;
@@ -45,8 +54,8 @@ class Article {
         return this.haveFile;
     }
 
-    public toJson(): any {
-        let json = {
+    public toJson(): ArticleJson {
+        let json: ArticleJson = {
             id: this.getId(),
             title: this.getTitle(),
             author: this.getAuthor(),
@@ -58,7 +67,7 @@ class Article {
         return json;
     }
 
-    static fromJson(json: any): Article {
+    static fromJson(json: ArticleJson): Article {
         return new Article(
             json.id,
             json.title,
