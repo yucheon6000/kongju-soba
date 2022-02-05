@@ -1,5 +1,4 @@
 import React from "react";
-import { Text, View, StyleSheet, ScrollView } from "react-native";
 import Board from "../common/Board";
 import Article from "../common/Article";
 import Parser from "../parser/Parser";
@@ -35,15 +34,13 @@ class MainScreen extends React.Component<Props, State> {
 
     render() {
         return (
-            <View>
-                <ScrollView>
-                    {
-                        this.state.articleList.map(article => {
-                            return (<Text key={this.key++}>{article.toString()}</Text>);
-                        })
-                    }
-                </ScrollView>
-            </View>
+            <div>
+                {
+                    <div>{this.state.articleList.map(article => {
+                        return <div>{article.toString()}</div>
+                    })}</div>
+                }
+            </div>
         );
     }
 }
