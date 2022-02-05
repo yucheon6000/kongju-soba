@@ -59,6 +59,9 @@ class Board {
         let id = article.getId();
         if (id > this.getLatestArticleId())
             this.setLatestArticleId(id);
+
+        // 정렬
+        this.articleList.sort((a, b) => b.getId() - a.getId());
     }
 
     /**
@@ -70,6 +73,10 @@ class Board {
         if (index < 0) return;
 
         this.articleList.splice(index, 1);
+    }
+
+    public getArticleList(): Array<Article> {
+        return this.articleList.slice();
     }
 
     public toJson(): BoardJson {
