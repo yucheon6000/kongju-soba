@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain, shell } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 
@@ -12,9 +12,12 @@ function createWindow() {
             nodeIntegration: true,
             enableRemoteModule: true,
             devTools: isDev,
-            webSecurity: false
+            webSecurity: false,
+            preload: path.join(__dirname, "preload.js")
         },
     });
+
+    mainWindow.setAlwaysOnTop(true);
 
     mainWindow.loadURL(
         isDev
@@ -32,6 +35,12 @@ function createWindow() {
 }
 
 app.on("ready", createWindow);
+
+app.whenReady().then(() => {
+    ipcMain.on("openArticle", (_, uri) => {
+        shell.openExternal(uri);
+    });
+})
 
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
