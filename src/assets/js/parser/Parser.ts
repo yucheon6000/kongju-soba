@@ -58,7 +58,7 @@ class Parser {
         return result;
     }
 
-    public async getBoard(): Promise<Board> {
+    public async getBoard(maxPage: number = 3): Promise<Board> {
         let lastestArticleId = this.board.getLatestArticleId();
         let page = 0;
 
@@ -79,6 +79,8 @@ class Parser {
             }
 
             if (breakFlag) break;
+
+            if (page >= maxPage) break;
         }
 
         return this.board;
