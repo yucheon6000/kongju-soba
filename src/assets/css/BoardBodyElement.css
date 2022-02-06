@@ -1,0 +1,38 @@
+.board_body_element_container {
+    display: none;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.board_body_element_container.selected {
+    display: block;
+}
+
+.board_body_element_container::-webkit-scrollbar {
+    width: 10px;
+    background-color: #ffffff00;
+}
+
+.board_body_element_container::-webkit-scrollbar-thumb {
+    width: 10px;
+    background-color: #d8d8d8;
+}
+
+.board_body_element_container
+.null {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.board_body_element_container
+.null_image svg {
+    min-width: 60px;
+    max-width: 100px;
+    width: 20%;
+    height: auto;
+    margin-bottom: 5px;
+}
