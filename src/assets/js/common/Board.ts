@@ -3,7 +3,6 @@ import Article, { ArticleJson } from "./Article";
 export type BoardJson = {
     id: string,
     name: string,
-    articleList: Array<ArticleJson>,
     latestArticleId: number,
 };
 
@@ -26,7 +25,7 @@ class Board {
         return this.name;
     }
 
-    public setLatestArticleId(id: number) {
+    private setLastestArticleId(id: number) {
         this.latestArticleId = id;
     }
 
@@ -58,7 +57,7 @@ class Board {
         // 최신 아이디인지 확인
         let id = article.getId();
         if (id > this.getLatestArticleId())
-            this.setLatestArticleId(id);
+            this.setLastestArticleId(id);
 
         // 정렬
         this.articleList.sort((a, b) => b.getId() - a.getId());
@@ -79,6 +78,14 @@ class Board {
         return this.articleList.slice();
     }
 
+    public equal(board: Board): boolean {
+        let flag = false;
+        if (this.getId() == board.getId() && this.getName() == board.getName())
+            flag = true;
+
+        return flag;
+    }
+
     public toJson(): BoardJson {
         let articleJsonList: Array<ArticleJson> = [];
         this.articleList.map(
@@ -88,7 +95,6 @@ class Board {
         let json: BoardJson = {
             id: this.getId(),
             name: this.getName(),
-            articleList: articleJsonList,
             latestArticleId: this.getLatestArticleId(),
         };
 
@@ -97,12 +103,7 @@ class Board {
 
     public static fromJson(json: BoardJson): Board {
         let board = new Board(json.id, json.name);
-
-        json.articleList.map((articleJson) => {
-            let article = Article.fromJson(articleJson);
-            board.addArticle(article);
-        })
-
+        board.setLastestArticleId(json.latestArticleId);
         return board;
     }
 }
