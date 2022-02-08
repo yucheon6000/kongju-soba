@@ -1,13 +1,19 @@
-const { app, BrowserWindow, ipcMain, shell } = require("electron");
+const { app, BrowserWindow, ipcMain, shell, screen } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 
 let mainWindow;
 
 function createWindow() {
+    let display = screen.getPrimaryDisplay();
+    let width = display.bounds.width;
+
     mainWindow = new BrowserWindow({
-        width: 900,
-        height: 680,
+        width: 360,
+        height: 600,
+        x: width - 360,
+        y: 0,
+        alwaysOnTop: true,
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
@@ -16,8 +22,6 @@ function createWindow() {
             preload: path.join(__dirname, "preload.js")
         },
     });
-
-    mainWindow.setAlwaysOnTop(true);
 
     mainWindow.loadURL(
         isDev
