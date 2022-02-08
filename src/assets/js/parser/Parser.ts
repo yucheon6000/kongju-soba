@@ -74,8 +74,10 @@ class Parser {
             for (let article of articleList) {
                 if (article.getId() > lastestArticleId)
                     this.board.addArticle(article)
-                else
+                else {
                     breakFlag = true;
+                    break;
+                }
             }
 
             if (breakFlag) break;
