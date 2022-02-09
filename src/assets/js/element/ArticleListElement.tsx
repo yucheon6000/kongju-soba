@@ -39,7 +39,7 @@ class ArticleListElement extends React.Component<Props, State> {
         return (
             <div className="article_list_element_container" onClick={this.onClick.bind(this)}>
                 <div className={`is_new ${this.state.isNew ? "show" : ""}`}>N</div>
-                <div className="title">{article.getTitle()}</div>
+                <div className={`title ${this.state.isNew ? "" : "checked"}`}>{article.getTitle()}</div>
                 <div className="date_and_author">{article.getAuthor()} {DateUtil.dateToDateString(article.getDate())}</div>
             </div>
         );

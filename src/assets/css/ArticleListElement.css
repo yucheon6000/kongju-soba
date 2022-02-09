@@ -19,6 +19,11 @@ div {
 }
 
 .article_list_element_container
+.title.checked {
+    color: gray;
+}
+
+.article_list_element_container
 .date_and_author {
     font-size: 0.6rem;
     color: gray;
