@@ -1,18 +1,27 @@
-const { app, BrowserWindow } = require("electron");
+const package = require("../package.json");
+
+const { app, BrowserWindow, ipcMain, shell, screen } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 
 let mainWindow;
 
 function createWindow() {
+    let display = screen.getPrimaryDisplay();
+    let width = display.bounds.width;
+
     mainWindow = new BrowserWindow({
-        width: 900,
-        height: 680,
+        width: 360,
+        height: 600,
+        x: width - 360,
+        y: 0,
+        alwaysOnTop: true,
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
             devTools: isDev,
-            webSecurity: false
+            webSecurity: false,
+            preload: path.join(__dirname, "preload.js")
         },
     });
 
@@ -33,6 +42,12 @@ function createWindow() {
 
 app.on("ready", createWindow);
 
+app.whenReady().then(() => {
+    ipcMain.on("openArticle", (_, uri) => {
+        shell.openExternal(uri);
+    });
+})
+
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
         app.quit();
@@ -43,4 +58,12 @@ app.on("activate", () => {
     if (mainWindow === null) {
         createWindow();
     }
+});
+
+app.setAboutPanelOptions({
+    applicationName: "공주소바",
+    applicationVersion: package.version,
+    version: package.version,
+    copyright: "Copyright © 2022 yucheon.io",
+    iconPath: "./logo.png"
 });

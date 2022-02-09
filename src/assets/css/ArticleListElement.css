@@ -1,0 +1,51 @@
+.article_list_element_container {
+    position: relative;
+    padding: 8px 15px;
+    border-bottom: 0.1px solid gray;
+    cursor: pointer;
+}
+
+.article_list_element_container
+div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.article_list_element_container
+.title {
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+.article_list_element_container
+.date_and_author {
+    font-size: 0.6rem;
+    color: gray;
+}
+
+.article_list_element_container
+.is_new {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 0px;
+    height: 0px;
+    transform: translate(0, -50%);
+    font-size: 0;
+    line-height: 0px;
+    text-align: center;
+    text-overflow: clip;
+    border-radius: 100%;
+    color: white;
+    background-color: #021d2e;
+}
+
+.article_list_element_container
+.is_new.show {
+    right: 6px;
+    width: 15px;
+    height: 15px;
+    font-size: 8px;
+    line-height: 15px;  
+}

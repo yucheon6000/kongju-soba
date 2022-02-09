@@ -3,19 +3,25 @@ import Article, { ArticleJson } from "./Article";
 export type BoardJson = {
     id: string,
     name: string,
-    articleList: Array<ArticleJson>,
-    latestArticleId: number,
+    shortName: string,
+    lastestArticleId: number,
 };
 
 class Board {
     private id: string;
     private name: string;
+    private shortName: string;
     private articleList: Array<Article> = [];
-    private latestArticleId: number = 0;
+    private lastestArticleId: number = 0;
 
-    public constructor(id: string, name: string) {
+    public constructor(id: string, name: string, shortName: string | null = null) {
         this.id = id;
         this.name = name;
+
+        if (shortName)
+            this.shortName = shortName;
+        else
+            this.shortName = name;
     }
 
     public getId(): string {
@@ -26,12 +32,16 @@ class Board {
         return this.name;
     }
 
-    public setLatestArticleId(id: number) {
-        this.latestArticleId = id;
+    public getShortName(): string {
+        return this.shortName;
     }
 
-    public getLatestArticleId(): number {
-        return this.latestArticleId;
+    private setLastestArticleId(id: number) {
+        this.lastestArticleId = id;
+    }
+
+    public getLastestArticleId(): number {
+        return this.lastestArticleId;
     }
 
     /**
@@ -57,8 +67,8 @@ class Board {
 
         // 최신 아이디인지 확인
         let id = article.getId();
-        if (id > this.getLatestArticleId())
-            this.setLatestArticleId(id);
+        if (id > this.getLastestArticleId())
+            this.setLastestArticleId(id);
 
         // 정렬
         this.articleList.sort((a, b) => b.getId() - a.getId());
@@ -79,6 +89,16 @@ class Board {
         return this.articleList.slice();
     }
 
+    public equal(board: Board): boolean {
+        let flag = false;
+        if (this.getId() == board.getId()
+            && this.getName() == board.getName()
+            && this.getShortName() == board.getShortName())
+            flag = true;
+
+        return flag;
+    }
+
     public toJson(): BoardJson {
         let articleJsonList: Array<ArticleJson> = [];
         this.articleList.map(
@@ -88,21 +108,19 @@ class Board {
         let json: BoardJson = {
             id: this.getId(),
             name: this.getName(),
-            articleList: articleJsonList,
-            latestArticleId: this.getLatestArticleId(),
+            shortName: this.getShortName(),
+            lastestArticleId: this.getLastestArticleId(),
         };
 
         return json;
     }
 
     public static fromJson(json: BoardJson): Board {
-        let board = new Board(json.id, json.name);
-
-        json.articleList.map((articleJson) => {
-            let article = Article.fromJson(articleJson);
-            board.addArticle(article);
-        })
-
+        let board = new Board(json.id, json.name, json.shortName);
+        if (json.lastestArticleId)
+            board.setLastestArticleId(json.lastestArticleId);
+        else
+            board.setLastestArticleId(0);
         return board;
     }
 }

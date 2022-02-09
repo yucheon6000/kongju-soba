@@ -1,16 +1,18 @@
+import * as cheerio from 'cheerio';
+import UriFormatter from '../common/UriFormatter';
 import Article from "../common/Article";
 import Board from "../common/Board";
 import DateUtil from "../util/DateUtil";
-import UrlUtil from "../util/UrlUtil";
-import * as cheerio from 'cheerio';
 
 export type ParseBoardCallback = () => void;
 
 class Parser {
     private board: Board;
+    private uriFormatter: UriFormatter;
 
-    public constructor(board: Board) {
+    public constructor(board: Board, uriFormatter: UriFormatter) {
         this.board = board;
+        this.uriFormatter = uriFormatter;
     }
 
     private async parserBoard(body: string): Promise<Article[]> {
@@ -56,13 +58,13 @@ class Parser {
         return result;
     }
 
-    public async getBoard(): Promise<Board> {
-        let lastestArticleId = this.board.getLatestArticleId();
+    public async getBoard(maxPage: number = 3): Promise<Board> {
+        let lastestArticleId = this.board.getLastestArticleId();
         let page = 0;
 
         while (true) {
             page++;
-            let uri = UrlUtil.getBoardUrl(this.board, page);
+            let uri = this.uriFormatter.getBoardUri(this.board, page);
             let response = await fetch(uri);
             let body = await response.text();
             let articleList = await this.parserBoard(body);
@@ -72,18 +74,22 @@ class Parser {
             for (let article of articleList) {
                 if (article.getId() > lastestArticleId)
                     this.board.addArticle(article)
-                else
+                else {
                     breakFlag = true;
+                    break;
+                }
             }
 
             if (breakFlag) break;
+
+            if (page >= maxPage) break;
         }
 
         return this.board;
     }
 
     public async getLastestArticleId(): Promise<number> {
-        let uri = UrlUtil.getBoardUrl(this.board);
+        let uri = this.uriFormatter.getBoardUri(this.board);
         let response = await fetch(uri);
         let body = await response.text();
         let articleList = await this.parserBoard(body);

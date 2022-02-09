@@ -1,0 +1,44 @@
+{
+    "boardList": [
+        {
+            "id": "kongju/1521",
+            "name": "학생소식",
+            "shortName": "학생",
+            "lastestArticleId": 0
+        },
+        {
+            "id": "kongju/1522",
+            "name": "행정소식",
+            "shortName": "행정",
+            "lastestArticleId": 0
+        },
+        {
+            "id": "kongju/1523",
+            "name": "행사안내",
+            "shortName": "행사",
+            "lastestArticleId": 0
+        },
+        {
+            "id": "kongju/1524",
+            "name": "취업소식",
+            "shortName": "취업",
+            "lastestArticleId": 0
+        },
+        {
+            "id": "ZG0110/116",
+            "name": "게임디자인학과",
+            "shortName": "겜디",
+            "lastestArticleId": 0
+        },
+        {
+            "id": "ZB0431/221",
+            "name": "경영학과",
+            "shortName": "경영",
+            "lastestArticleId": 0
+        }
+    ],
+    "uriFormat": {
+        "boardUri": "https://www.kongju.ac.kr/bbs/{Board.id}/artclList.do?page={page}",
+        "articleUri": "https://www.kongju.ac.kr/bbs/{Board.id}/{Article.id}/artclView.do"
+    }
+}

@@ -1,13 +1,35 @@
 {
   "name": "kongju-soba",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "main": "public/electron.js",
   "homepage": "./",
   "build": {
-    "productName": "kongju-soba",
+    "productName": "KongjuSoba",
     "asar": true,
-    "appId": "io.yucheon.kongju-soba"
+    "appId": "io.yucheon.kongju-soba",
+    "mac": {
+      "target": [
+        "default"
+      ],
+      "icon": "./public/logo.icns"
+    },
+    "dmg": {
+      "title": "KongjuSoba",
+      "icon": "./public/logo.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "./public/logo.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "src/**/*",
+      "public/**/*"
+    ]
   },
   "scripts": {
     "react-start": "react-scripts start",
@@ -16,6 +38,9 @@
     "react-eject": "react-scripts eject",
     "start": "concurrently \"cross-env NODE_ENV=development BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "yarn react-build && electron-builder",
+    "build-mac": "yarn react-build && electron-builder --mac --universal",
+    "build-win32": "yarn react-build && electron-builder --win --ia32",
+    "build-win64": "yarn react-build && electron-builder --win --x64",
     "release": "yarn react-build && electron-builder --publish=always"
   },
   "eslintConfig": {
@@ -48,6 +73,7 @@
     "electron-is-dev": "^2.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
     "react-scripts": "5.0.0",
     "typescript": "^4.5.5",
     "web-vitals": "^2.1.4"
