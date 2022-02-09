@@ -24,35 +24,40 @@ class Parser {
         let $trs = $("tbody tr", $board);
 
         $trs.each((_: number, tr: any) => {
-            let $tr = $(tr);
-            if ($tr.hasClass("notice")) return;
+            try {
+                let $tr = $(tr);
+                if ($tr.hasClass("notice")) return;
 
-            // 제목
-            let $title = $(".td-subject", $tr);
-            let title = `${$(".cate", $title).text()} ${$("strong", $title).text()}`;
-            $(".new", $title).remove();
+                // 제목
+                let $title = $(".td-subject", $tr);
+                let title = `${$(".cate", $title).text()} ${$("strong", $title).text()}`;
+                $(".new", $title).remove();
 
-            // 아이디
-            let $a = $("a", $title);
-            let href = $a.attr("href") as string;
-            let splitedHref = href.split("/");
-            let id = parseInt(splitedHref[splitedHref.length - 2]);
+                // 아이디
+                let $a = $("a", $title);
+                let href = $a.attr("href") as string;
+                let splitedHref = href.split("/");
+                let id = parseInt(splitedHref[splitedHref.length - 2]);
 
-            // 작성자
-            let $author = $(".td-write", $tr);
-            let author = $author.text().trim();
+                // 작성자
+                let $author = $(".td-write", $tr);
+                let author = $author.text().trim();
 
-            // 날짜
-            let $date = $(".td-date", $tr);
-            let date = $date.text().replace(/\./gi, "-");
+                // 날짜
+                let $date = $(".td-date", $tr);
+                let date = $date.text().replace(/\./gi, "-");
 
-            // 파일 여부
-            let haveFile = $(".td-file .fileok", $tr).length > 0;
+                // 파일 여부
+                let haveFile = $(".td-file .fileok", $tr).length > 0;
 
-            // 결과 (Article)
-            let article = new Article(id, title, author, DateUtil.dateStringToDate(date), true, haveFile);
+                // 결과 (Article)
+                let article = new Article(id, title, author, DateUtil.dateStringToDate(date), true, haveFile);
 
-            result.push(article);
+                result.push(article);
+            }
+            catch (e) {
+                return;
+            }
         });
 
         return result;
