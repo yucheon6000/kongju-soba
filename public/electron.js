@@ -1,3 +1,5 @@
+const package = require("../package.json");
+
 const { app, BrowserWindow, ipcMain, shell, screen } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
@@ -56,4 +58,12 @@ app.on("activate", () => {
     if (mainWindow === null) {
         createWindow();
     }
+});
+
+app.setAboutPanelOptions({
+    applicationName: "공주소바",
+    applicationVersion: package.version,
+    version: package.version,
+    copyright: "Copyright © 2022 yucheon.io",
+    iconPath: "./logo.png"
 });
