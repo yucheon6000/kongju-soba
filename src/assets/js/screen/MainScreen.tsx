@@ -10,6 +10,7 @@ import { FiMoreHorizontal, FiX, FiRefreshCw, FiSettings, FiLoader } from "react-
 
 import defaultSettingJson from "../../json/setting.json";
 import BoardBodyElement from "../element/BoardBodyElement";
+import SettingElement from "../element/SettingElement";
 
 export type Props = {};
 
@@ -20,6 +21,7 @@ export type State = {
     boardInfo: any,
     lastUpdateDate: Date,
     refresh: boolean,
+    setting: boolean
 };
 
 class MainScreen extends React.Component<Props, State> {
@@ -38,6 +40,7 @@ class MainScreen extends React.Component<Props, State> {
             boardInfo: {},
             lastUpdateDate: new Date(),
             refresh: false,
+            setting: false
         };
     }
 
@@ -138,6 +141,10 @@ class MainScreen extends React.Component<Props, State> {
         })
     }
 
+    public onClickSettingButton() {
+        this.setState({ setting: true });
+    }
+
     public onClickBoardHeaderElement(board: Board) {
         this.state.boardInfo[board.getId()].isNew = false;
 
@@ -155,6 +162,27 @@ class MainScreen extends React.Component<Props, State> {
         api.send("openArticle", uri);
     }
 
+    public onCancelSetting() {
+        this.setState({ setting: false });
+    }
+
+    public onConfirmSetting(boardList: Array<Board>) {
+        let boardInfo: any = {};
+
+        boardList.map(board => {
+            boardInfo[board.getId()] = {
+                isNew: false,
+                lastestArticleId: board.getLastestArticleId()
+            };
+        })
+
+        this.setState({ boardList, boardInfo, setting: false, lastUpdateDate: new Date(0) }, () => {
+            this.refresh(true, () => {
+                this.saveSetting();
+            })
+        });
+    }
+
     public render() {
         return (
             <div className="main_screen_container">
@@ -168,7 +196,7 @@ class MainScreen extends React.Component<Props, State> {
 
                 <div className={`menu_button_group ${this.state.showMenuButton ? "show" : ""}`}>
                     <div onClick={this.onClickRefreshButton.bind(this)} className={`button ${this.state.refresh ? "rotate" : ""}`}><FiRefreshCw /></div>
-                    <div className="button"><FiSettings /></div>
+                    <div onClick={this.onClickSettingButton.bind(this)} className="button"><FiSettings /></div>
                     <div className="hidden_button button"><FiMoreHorizontal /></div>
                 </div>
 
@@ -202,6 +230,11 @@ class MainScreen extends React.Component<Props, State> {
                     </div>
                 }
                 </div>
+
+                {
+                    this.state.setting &&
+                    <SettingElement boardList={this.state.boardList} onConfirm={this.onConfirmSetting.bind(this)} onCancel={this.onCancelSetting.bind(this)} />
+                }
             </div>
         );
     }
