@@ -59,7 +59,7 @@ class Parser {
     }
 
     public async getBoard(maxPage: number = 3): Promise<Board> {
-        let lastestArticleId = this.board.getLatestArticleId();
+        let lastestArticleId = this.board.getLastestArticleId();
         let page = 0;
 
         while (true) {

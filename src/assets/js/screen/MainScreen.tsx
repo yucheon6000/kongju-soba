@@ -68,7 +68,7 @@ class MainScreen extends React.Component<Props, State> {
             boardList.push(board);
             boardInfo[board.getId()] = {
                                             isNew: false,
-                                            lastestArticleId: board.getLatestArticleId()
+                                            lastestArticleId: board.getLastestArticleId()
                                         };
         });
 
@@ -104,12 +104,12 @@ class MainScreen extends React.Component<Props, State> {
 
         this.state.boardList.map((board, index) => {
             let parser = new Parser(board, this.uriFormatter);
-            let lastestArticleId = board.getLatestArticleId();
+            let lastestArticleId = board.getLastestArticleId();
 
             parser.getBoard().then(board => {
                 // 새로운 글 체크
                 let boardId = board.getId();
-                let newLastestArticleId = board.getLatestArticleId();
+                let newLastestArticleId = board.getLastestArticleId();
                 if(newLastestArticleId > lastestArticleId)
                     boardInfo[boardId].isNew = true;
 

@@ -32,7 +32,7 @@ class BoardHeaderElement extends React.Component<Props, State> {
         return (
             <div className={`board_header_element_container ${this.props.selected ? "selected" : ""}`} onClick={this.onClick.bind(this)}>
                 <div className={`is_new ${this.state.isNew ? "show" : ""}`}></div>
-                <div className="name">{this.props.board.getName()}</div>
+                <div className="name">{this.props.selected ? this.props.board.getName() : this.props.board.getShortName()}</div>
             </div>
         );
     }
