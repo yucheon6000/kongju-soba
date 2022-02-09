@@ -38,7 +38,7 @@ class MainScreen extends React.Component<Props, State> {
             boardList: [],
             showMenuButton: false,
             boardInfo: {},
-            lastUpdateDate: new Date(),
+            lastUpdateDate: new Date(0),
             refresh: false,
             setting: false
         };
@@ -93,11 +93,19 @@ class MainScreen extends React.Component<Props, State> {
         setting.uriFormat = this.uriFormat;
         
         let settingJsonString = JSON.stringify(setting);
-
+        
         localStorage.setItem("setting", settingJsonString);
     }
 
     private refresh(selectFirstBoard: boolean = false, callback: Function|undefined = undefined) {
+        // 갱신 최소 시간 검증
+        let updateDeltaTime = new Date().getTime() - this.state.lastUpdateDate.getTime();
+        if(updateDeltaTime < 30 * 1000) {
+            updateDeltaTime = Math.floor((30 * 1000 - updateDeltaTime) / 1000);
+            alert(`${updateDeltaTime}초 이후에 업데이트할 수 있습니다.`);
+            return;
+        }
+
         this.setState({ refresh: true });
 
         let boardMaxCount = this.state.boardList.length;
