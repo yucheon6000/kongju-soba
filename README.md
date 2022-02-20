@@ -1,5 +1,7 @@
 # 공주소바
 
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fkongjusoba.yucheon.io&count_bg=%230B2E46&title_bg=%23174869&icon=&icon_color=%23E7E7E7&title=%EB%B0%A9%EB%AC%B8&edge_flat=false)](https://hits.seeyoufarm.com)
+
 [1. Hello!](#1-hello)   
 [2. 작동 방식](#2-작동-방식)   
 [3. 게시판 설정](#3-게시판-설정)   
